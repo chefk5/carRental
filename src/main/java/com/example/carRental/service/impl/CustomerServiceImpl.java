@@ -2,6 +2,7 @@ package com.example.carRental.service.impl;
 
 import com.example.carRental.dto.CustomerDto;
 import com.example.carRental.entity.Customer;
+import com.example.carRental.exception.ResourceAlreadyExistsException;
 import com.example.carRental.exception.ResourceNotFoundException;
 import com.example.carRental.mapper.CustomerMapper;
 import com.example.carRental.repository.CustomerRepository;
@@ -20,6 +21,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto createCustomer(CustomerDto customerDto){
+        Optional<Customer> duplicateCustomer = customerRepository.findByEmail(customerDto.getEmail());
+        if(duplicateCustomer.isPresent()){
+            throw new ResourceAlreadyExistsException("A customer with same email exists");
+        }
         Customer customer = CustomerMapper.mapToCustomer(customerDto);
         Customer savedCustomer = customerRepository.save(customer);
         return CustomerMapper.mapToCustomerDto(savedCustomer);
@@ -59,4 +64,6 @@ public class CustomerServiceImpl implements CustomerService {
         Optional<Customer> customer =  customerRepository.findById(customerId);
         customerRepository.deleteById(customerId);
     }
+
+
 }
