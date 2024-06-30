@@ -1,9 +1,7 @@
 package com.example.carRental.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,6 +13,11 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name = "customers")
 public class Customer extends User {
+
+    @Id
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
+    @Column(name="customer_id")
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -29,7 +32,8 @@ public class Customer extends User {
     private String licenseNbr;
 
     public Customer(Long id, String email, String password, String firstName, String lastName, LocalDateTime dateOfBirth, String licenseNbr) {
-        super(id, email, password, null);  // Initialize superclass fields
+        super( email, password, null);  // Initialize superclass fields
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;

@@ -1,5 +1,6 @@
 package com.example.carRental.entity;
 
+import com.example.carRental.Constants.RentalStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,6 +33,10 @@ public class RentalContract {
     private LocalDate endDate;
 
     @Column(nullable = false)
-    private double rentalPrice;
+    private Double rentalPrice;
+
+    @Column(nullable = false)
+    private RentalStatus status;
+
 
 }
